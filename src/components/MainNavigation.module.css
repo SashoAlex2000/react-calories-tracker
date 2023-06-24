@@ -1,0 +1,29 @@
+.header {
+    max-width: 100%;
+    margin: auto;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: #7FB685;
+}
+
+.list {
+    display: flex;
+    gap: 2.5rem;
+    list-style-type: none;
+}
+
+.list a {
+    text-decoration: none;
+    color: #2F3061;
+    font-size: 1.33rem;
+}
+
+.list a:hover,
+.list a.active {
+    color: blueviolet;
+}
+
+.navbar {
+    width: 50%;
+}
