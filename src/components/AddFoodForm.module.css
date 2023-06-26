@@ -1,0 +1,9 @@
+.foodForm {
+    margin-top: 5rem;
+    margin-left: 3rem;
+}
+
+.foodForm input {
+    display: block;
+    margin: 1.25rem;
+}

@@ -1,0 +1,16 @@
+.listItem {
+    list-style-type: none;
+    width: 30%;
+}
+
+@media (max-width: 768px) {
+    .listItem {
+        flex-basis: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .listItem {
+        flex-basis: 100%;
+    }
+}
