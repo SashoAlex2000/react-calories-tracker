@@ -1,3 +1,4 @@
+import { useState } from "react";
 import AddFoodForm from "../components/AddFoodForm";
 import FoodList from "../components/FoodList";
 
@@ -58,9 +59,21 @@ const header = "This is the page of your foods available;";
 
 function FoodsPage () {
 
+    const foodCounter = DUMMY_FOODS.length;
+
+    const [foodsList, setFoodsList] = useState(DUMMY_FOODS);
+
+    // should utilize useState and set the foods this way, the previous way
+    // updated DUMMY_FOODS and wasn't immediatelly added, since nothing was re-rendered,
+    // since the state didn't change
+    const addFoodHandler = (foodObj) => {
+        setFoodsList(fl => fl.concat({...foodObj, id: `f${foodCounter+1}`})) ;
+        // foodsList.push({...foodObj, id: `f${foodCounter+1}`});
+    }
+
     return <>
-        <AddFoodForm/>
-        <FoodList header={header} foods={DUMMY_FOODS}/>
+        <AddFoodForm onFoodAdd={addFoodHandler}/>
+        <FoodList header={header} foods={foodsList}/>
     </>
 };
 

@@ -6,4 +6,11 @@
 .foodForm input {
     display: block;
     margin: 1.25rem;
+    width: 15rem;
+}
+
+.foodForm select {
+    display: block;
+    margin: 1.25rem;
+    width: 15rem;
 }
