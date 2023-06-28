@@ -4,6 +4,8 @@ import classes from './AddFoodForm.module.css';
 import { checkEmptyInput, checkForNonNegativeNumberInput } from '../utils/formValidityCheckers';
 import { unitChoices } from '../utils/constants';
 import { redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { foodActions } from '../store/foods-slice';
 
 const AddFoodForm = (props) => {
 
@@ -16,6 +18,8 @@ const AddFoodForm = (props) => {
     const fat = useRef();
     const protein = useRef();
     const carbs = useRef(); 
+
+    const dispatch = useDispatch();
 
     const addFoodSubmitHandler = (event) => {
 
@@ -33,9 +37,10 @@ const AddFoodForm = (props) => {
 
         if (!formIsValid) {
             return;
-        }
-
-        props.onFoodAdd({
+        };
+        
+        // 20230628 -> remove props.onAddFood (addFoodHandler), add foods to redux with dispatch and actions
+        dispatch(foodActions.addNewFood({
             name: foodName.current.value,
             caloriesPerDenom: denom.current.value,
             unit: unitValue,
@@ -46,7 +51,7 @@ const AddFoodForm = (props) => {
                 fat: +fat.current.value,
             }
 
-        });
+        }));
         return redirect('/foods');
 
     };
