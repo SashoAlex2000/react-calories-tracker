@@ -16,6 +16,9 @@ const foodsSlice = createSlice({
 
             state.foodItems.push(newFood);
 
+        },
+        replaceFoodItems (state, action) {
+            state.foodItems = action.payload;
         }
     }
 });

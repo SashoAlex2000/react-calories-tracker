@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddFoodForm from "../components/AddFoodForm";
 import FoodList from "../components/FoodList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFoodData } from "../store/food-actions";
 
 
 const header = "This is the page of your foods available;";
@@ -12,11 +13,27 @@ const header = "This is the page of your foods available;";
 
 function FoodsPage () {
 
-    const testItems = useSelector(state => state.foods.foodItems);
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(state => state.auth.user?.uid);
+
+    // 20230705 -> run this function each time the auth status changes -> 
+    // if there is no user it will get get the dummy data, otherwise 
+    // it sets the appropriate Redux state as the foodItems from DB
+    // the right pattern is using the dispatch to change the data and later getting it with useSelector
+    useEffect(() => {
+        dispatch(fetchFoodData(currentUserId));
+    }, [
+        currentUserId,
+    ]);
+
+    
+    // cannot get the result from dispatch, it returns promise ...
+    // cannot use useSelector inside conditionals
+    const items = useSelector(state => state.foods.foodItems);
 
     return <>
         <AddFoodForm/>
-        <FoodList header={header} foods={testItems}/>
+        <FoodList header={header} foods={items}/>
     </>
 };
 
