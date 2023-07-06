@@ -1,7 +1,7 @@
 
 
 export const unitChoices = {
-    'grams': 'gr.',
+    'gram': 'gr.',
     'milliliters': 'ml.',
     'liters': 'l.',
     'kilograms': 'kg.',
@@ -87,6 +87,20 @@ export const DUMMY_FOODS = {
         },
     },
 
-}
+};
+
 
 export const FIREBASE_URL = 'https://react-calorie-tracker-default-rtdb.europe-west1.firebasedatabase.app/';
+
+
+export const constructFoodItemId = (currentMetaId, foodItemsLastId) => {
+
+    // cannot call useSelector here ...
+
+    if (!currentMetaId || foodItemsLastId < 0) {
+        return 'error';
+    };
+
+    return `u${currentMetaId}f${foodItemsLastId + 1}`;
+
+};

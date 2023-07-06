@@ -2,10 +2,10 @@
 import { useRef, useState } from 'react';
 import classes from './AddFoodForm.module.css';
 import { checkEmptyInput, checkForNonNegativeNumberInput } from '../utils/formValidityCheckers';
-import { unitChoices } from '../utils/constants';
+import { constructFoodItemId, unitChoices } from '../utils/constants';
 import { redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { foodActions } from '../store/foods-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postFoodItem } from '../store/food-actions';
 
 const AddFoodForm = (props) => {
 
@@ -17,9 +17,16 @@ const AddFoodForm = (props) => {
 
     const fat = useRef();
     const protein = useRef();
-    const carbs = useRef(); 
+    const carbs = useRef();
 
     const dispatch = useDispatch();
+
+    const currentMetaCounter = useSelector(state => state.auth.user?.currentMetaCounter);
+    const currentFoodCounter = useSelector(state => state.foods?.currentFoodCounter);
+    const currentItemId = constructFoodItemId(currentMetaCounter, currentFoodCounter);
+    const UID = useSelector(state => state.auth.user?.uid);
+
+    const foodAll = useSelector(state => state.foods.foodItems);
 
     const addFoodSubmitHandler = (event) => {
 
@@ -33,17 +40,23 @@ const AddFoodForm = (props) => {
         const proteinIsValid = checkEmptyInput(protein.current.value) && checkForNonNegativeNumberInput(protein.current.value);
         const carbsIsValid = checkEmptyInput(carbs.current.value) && checkForNonNegativeNumberInput(carbs.current.value);
         const fatIsValid = checkEmptyInput(fat.current.value) && checkForNonNegativeNumberInput(fat.current.value);
-        
+
         const formIsValid = nameIsValid && caloriesIsValid && unitIsValid && denomIsValid && proteinIsValid && carbsIsValid && fatIsValid;
 
         if (!formIsValid) {
             return;
         };
-        
+
+        if (currentItemId === "error") {
+            return;
+        }
+
         // 20230628 -> remove props.onAddFood (addFoodHandler), add foods to redux with dispatch and actions
-        dispatch(foodActions.addNewFood({
+        // 20230706 -> no longer added directly in redux, use action to send data to Firebase, 
+        // and then update local redux state accordingly
+        const newFoodObjectData = {
             name: foodName.current.value,
-            caloriesPerDenom: denom.current.value,
+            caloriesPerDenom: +denom.current.value,
             unit: unitValue,
             commonDenomination: denom.current.value,
             macros: {
@@ -51,12 +64,21 @@ const AddFoodForm = (props) => {
                 carbohydrates: +carbs.current.value,
                 fat: +fat.current.value,
             }
+        };
 
-        }));
+        const newItem = {};
+        newItem[currentItemId] = newFoodObjectData;
+        const newFoods = {
+            ...foodAll,
+            ...newItem,
+        };
+
+        dispatch(postFoodItem(newFoods, UID, currentItemId));
+
         return redirect('/foods');
 
     };
-    
+
     const handleOptionChange = (event) => {
         setUnitValue(event.target.value);
     }
@@ -72,7 +94,7 @@ const AddFoodForm = (props) => {
                     {value}
                 </option>)}
             </select>
-            
+
 
             <input placeholder="common denomination" id="denom" ref={denom}></input>
             <input placeholder="protein" id="protein" ref={protein}></input>

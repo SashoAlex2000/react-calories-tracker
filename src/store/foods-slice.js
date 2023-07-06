@@ -9,14 +9,8 @@ const foodsSlice = createSlice({
         currentFoodCounter: -1,
     },
     reducers: {
-        addNewFood (state, action) {
-
-            const currentFood = action.payload;
-
-            const newFood = {...currentFood, id: `f${state.foodItems.length + 1}`};
-
-            state.foodItems.push(newFood);
-
+        addNewFood (state, action) { // called in the food-action 
+            state.foodItems[action.payload.newId] = action.payload.newFood;
         },
         replaceFoodItems (state, action) {
             state.foodItems = action.payload;

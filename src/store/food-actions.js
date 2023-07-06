@@ -1,4 +1,4 @@
-import { DUMMY_FOODS, FIREBASE_URL } from "../utils/constants";
+import { DUMMY_FOODS, FIREBASE_URL, constructFoodItemId } from "../utils/constants";
 import { authActions } from "./auth-slice";
 import { foodActions } from "./foods-slice";
 
@@ -49,3 +49,52 @@ export const fetchFoodData = (currentUserId) => {
 };
 
 
+// 20230607 -> send ('PUT') request to change the food items to the updated foodItems,
+// and update the new local food counter; then add the new food item to local redux state
+export const postFoodItem = (foodItems, userId, newestItemId) => {
+
+    return async (dispatch) => {
+
+        const sendFoodRequest = async () => {
+
+            const response = await fetch (`${FIREBASE_URL}users/${userId}/foods.json`, {
+                method: 'PUT',
+                body: JSON.stringify(foodItems)
+            });
+
+            if (!response.ok) {
+                throw new Error("Couldn't add this food item");
+            };
+
+        };
+
+        const sendCounterRequest = async () => {
+
+            const response = await fetch (`${FIREBASE_URL}users/${userId}/currentFCounter.json`, {
+                method: 'PUT',
+                body: JSON.stringify(Object.keys(foodItems).length),
+            });
+
+            if (!response.ok) {
+                throw new Error("Couldn't add this food item");
+            };
+
+        };
+
+        try {
+
+            await sendFoodRequest();
+            await sendCounterRequest();
+            
+            dispatch(foodActions.addNewFood({
+                newId: newestItemId, 
+                newFood: foodItems[newestItemId]
+            }));
+
+        } catch (error) {
+            console.log('there has been an error');
+        };
+        
+    };
+    
+};
