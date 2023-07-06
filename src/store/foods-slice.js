@@ -6,6 +6,7 @@ const foodsSlice = createSlice({
     name: 'foods',
     initialState: {
         foodItems: DUMMY_FOODS,
+        currentFoodCounter: -1,
     },
     reducers: {
         addNewFood (state, action) {
@@ -19,7 +20,10 @@ const foodsSlice = createSlice({
         },
         replaceFoodItems (state, action) {
             state.foodItems = action.payload;
-        }
+        },
+        updateFoodCounter (state, action) {
+            state.currentFoodCounter = action.payload;
+        },
     }
 });
 

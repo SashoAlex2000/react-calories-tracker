@@ -32,6 +32,7 @@ export const fetchFoodData = (currentUserId) => {
             if (currentUserData) {
                 dispatch(foodActions.replaceFoodItems(currentUserData.foods));
                 dispatch(authActions.addCurrentMetaCounter(currentUserData.currentMCounter));
+                dispatch(foodActions.updateFoodCounter(currentUserData.currentFCounter));
             } else {
                 dispatch(foodActions.replaceFoodItems(DUMMY_FOODS));
             };
