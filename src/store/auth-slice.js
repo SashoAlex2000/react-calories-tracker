@@ -17,6 +17,12 @@ const authSlice = createSlice({
         removeUser (state, action) {
             state.user = undefined;
         },
+        addCurrentMetaCounter (state, action) { // 20230607 -> when fetching foods, use this reducer to put the meta counter to the user state
+            state.user = {
+                ...state.user,
+                currentMetaCounter: action.payload,
+            }
+        },
     }
 });
 

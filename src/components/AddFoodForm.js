@@ -24,6 +24,7 @@ const AddFoodForm = (props) => {
     const addFoodSubmitHandler = (event) => {
 
         event.preventDefault();
+        // TODO -> prevent this page from loading if no user
 
         const nameIsValid = checkEmptyInput(foodName.current.value);
         const caloriesIsValid = checkEmptyInput(calories.current.value) && checkForNonNegativeNumberInput(calories.current.value);

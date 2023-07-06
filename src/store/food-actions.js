@@ -1,4 +1,5 @@
 import { DUMMY_FOODS, FIREBASE_URL } from "../utils/constants";
+import { authActions } from "./auth-slice";
 import { foodActions } from "./foods-slice";
 
 
@@ -30,6 +31,7 @@ export const fetchFoodData = (currentUserId) => {
 
             if (currentUserData) {
                 dispatch(foodActions.replaceFoodItems(currentUserData.foods));
+                dispatch(authActions.addCurrentMetaCounter(currentUserData.currentMCounter));
             } else {
                 dispatch(foodActions.replaceFoodItems(DUMMY_FOODS));
             };
