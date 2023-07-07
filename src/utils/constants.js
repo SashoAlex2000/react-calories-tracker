@@ -104,3 +104,24 @@ export const constructFoodItemId = (currentMetaId, foodItemsLastId) => {
     return `u${currentMetaId}f${foodItemsLastId + 1}`;
 
 };
+
+
+export const constructNewUserObject = (email, metaCounter) => {
+
+    const obj = {
+        currentFCounter: 0,
+        currentMCounter: metaCounter+1,
+        data: {
+            email: email,
+            username: '',
+            first_name: '',
+            last_name: '',
+        },
+        foods: {
+
+        },
+    };
+
+    return obj;
+
+};
