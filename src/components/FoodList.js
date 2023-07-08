@@ -5,19 +5,23 @@ const FoodList = (props) => {
 
     console.log(props.foods);
 
+    // TODO when first items is added, the page doesn't refresh
+
     return <>
         <h1>
             {props.header}
         </h1>
         <ul className={classes.foodList}>
             {/* 20230705 -> props.foods is now a object, so it has to be iterated differently */}
-            {Object.entries(props.foods).map(([key, value]) => <FooodItem key={key} data={{
+            {/* 20230708 -> check if foods is falsy, since new users don't have foods added */}
+            {props.foods && Object.entries(props.foods).map(([key, value]) => <FooodItem key={key} data={{
                 name: value.name,
                 caloriesPerDenom: value.caloriesPerDenom,
                 unit: value.unit,
                 commonDenomination: value.commonDenomination,
                 macros: value.macros,
             }} />)}
+            {!props.foods && <p>You don't have any food items yet!</p>}
         </ul>
     </>
 

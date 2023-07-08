@@ -106,20 +106,21 @@ export const constructFoodItemId = (currentMetaId, foodItemsLastId) => {
 };
 
 
+// 20230708 -> construct the object to be sent as a value on user register
 export const constructNewUserObject = (email, metaCounter) => {
+
+    metaCounter++;
 
     const obj = {
         currentFCounter: 0,
-        currentMCounter: metaCounter+1,
+        currentMCounter: metaCounter,
         data: {
             email: email,
             username: '',
             first_name: '',
             last_name: '',
         },
-        foods: {
-
-        },
+        foods: null,
     };
 
     return obj;
