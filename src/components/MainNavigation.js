@@ -53,16 +53,6 @@ function MainNavigation() {
                             Foods
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink
-                            to="/eat"
-                            className={({ isActive }) =>
-                                isActive ? classes.active : undefined
-                            }
-                        >
-                            EAT
-                        </NavLink>
-                    </li>
                     {authInfo && <button onClick={logOutHandler}>LogOut</button>}
                     {!authInfo && <li>
                         <NavLink
