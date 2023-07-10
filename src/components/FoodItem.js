@@ -11,7 +11,7 @@ const FooodItem = (props) => {
     // TODO display arrows for showing and hiding
     let arrow = String.fromCharCode(`&#11015`);
 
-    let buttonText = shouldShowMacros ? 'show macros' : 'hide macros';
+    let buttonText = shouldShowMacros ? 'hide macros' : 'show macros';
 
     const toggleMacrosHandler = (event) => {
 
