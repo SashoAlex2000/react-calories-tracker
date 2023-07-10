@@ -6,6 +6,7 @@ import { constructFoodItemId, unitChoices } from '../utils/constants';
 import { redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postFoodItem } from '../store/food-actions';
+import Modal from './UI/Modal';
 
 const AddFoodForm = (props) => {
 
@@ -83,7 +84,7 @@ const AddFoodForm = (props) => {
         setUnitValue(event.target.value);
     }
 
-    return <>
+    return <Modal onClose={props.onCloseAddForm}>
         <form className={classes.foodForm} onSubmit={addFoodSubmitHandler}>
 
             <input placeholder="food name" id="food-name" ref={foodName}></input>
@@ -102,9 +103,10 @@ const AddFoodForm = (props) => {
             <input placeholder="fat" id="fat" ref={fat}></input>
 
             <button type="submit">Add food</button>
+            <button type="button" onClick={props.onCloseAddForm}>Close</button>
 
         </form>
-    </>
+    </Modal>
 
 };
 

@@ -31,9 +31,21 @@ function FoodsPage () {
     // cannot use useSelector inside conditionals
     const items = useSelector(state => state.foods.foodItems);
 
+    // 20230710 -> AddFoodForm is now rendered conditionally in a Modal with a Backdrop
+    const [shouldShowAddForm, setShouldShowAddForm] = useState(false);
+
+    const hideAddFormHandler = () => {
+        setShouldShowAddForm(false);
+    };
+
+    const showAddFormHandler = () => {
+        setShouldShowAddForm(true);
+    };
+
     return <>
-        <AddFoodForm/>
-        <FoodList header={header} foods={items}/>
+        {shouldShowAddForm && <AddFoodForm onCloseAddForm={hideAddFormHandler}/>}
+        
+        <FoodList header={header} foods={items} showAddFoodForm={showAddFormHandler}/>
     </>
 };
 

@@ -11,6 +11,7 @@ const FoodList = (props) => {
         <h1>
             {props.header}
         </h1>
+        <button onClick={props.showAddFoodForm}>Add A New Food Item</button>
         <ul className={classes.foodList}>
             {/* 20230705 -> props.foods is now a object, so it has to be iterated differently */}
             {/* 20230708 -> check if foods is falsy, since new users don't have foods added */}
