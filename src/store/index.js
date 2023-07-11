@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import foodsSlice from "./foods-slice";
 import authSlice from "./auth-slice";
-import daysSlice from "./days-action";
+import daysSlice from "./days-slice";
 
 
 const store = configureStore({

@@ -19,6 +19,9 @@ const daysSlice = createSlice({
                 state.foodsAteToday[action.payload.foodId] = Number(action.payload.amount);
             };
         },
+        replaceFoodsEaten (state, action) {
+            state.foodsAteToday = action.payload;
+        }
     }
 });
 

@@ -126,3 +126,20 @@ export const constructNewUserObject = (email, metaCounter) => {
     return obj;
 
 };
+
+// 20230711 -> the function constructs a date string, in the appropriate format
+export function transformDate (someDate) {
+
+    if (typeof someDate === 'string') { // the format of toLocaleDateString() is 'mm/dd/yyyy'
+        const shredded = someDate.split('/');
+        const year = shredded[2];
+        const month = Number(shredded[0]) < 10 ? `0${shredded[0]}` : shredded[0];
+        const day = Number(shredded[1]) < 10 ? `0${shredded[1]}` : shredded[1];
+
+        const result = year + month + day;
+
+        return result;
+
+    };
+
+};
