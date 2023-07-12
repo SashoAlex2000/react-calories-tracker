@@ -20,6 +20,11 @@ const daysSlice = createSlice({
             };
         },
         replaceFoodsEaten (state, action) {
+            if (!action.payload) {
+                action.payload = {
+                    // create empty object in case day is empty and Firebase responds with null/undefined
+                };
+            };
             state.foodsAteToday = action.payload;
         }
     }

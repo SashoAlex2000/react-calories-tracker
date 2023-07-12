@@ -59,6 +59,8 @@ function TodayPage() {
         <ul>
             {Object.entries(foodsEatenDetails).map(([key, value]) => <li key={key}>{key} - {value}</li>)}
         </ul>
+        {/* display appropriate message for lack of foods eaten for current day */}
+        {Object.entries(foodsEatenDetails).length==0 && <h1>You haven't eaten anything today!</h1>}
     </>
 
 };
