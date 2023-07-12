@@ -1,0 +1,25 @@
+.foodItemToEat {
+    list-style-type: none;
+    width: 18%;
+}
+
+@media (max-width: 768px) {
+    .foodItemToEat {
+        flex-basis: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .foodItemToEat {
+        flex-basis: 100%;
+    }
+}
+
+.foodItemToEat > section > button {
+    margin-top: 5rem;
+    margin-left: 30%;
+    height: 2rem;
+    text-transform: capitalize;
+    border-radius: 10rem;
+    width: 7.33rem;
+}

@@ -1,9 +1,15 @@
 .card {
-    margin: 1rem auto;
-    border-radius: 6px;
-    background-color: white;
-    padding: 1rem;
-    width: 90%;
-    max-width: 40rem;
-    height: 20rem;
-  }
+  margin: 1rem auto;
+  border-radius: 6px;
+  background-color: white;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+  height: 20rem;
+};
+
+.itemToEat > button{
+  /* doesn't work :? */
+  height: 5rem;
+}
+

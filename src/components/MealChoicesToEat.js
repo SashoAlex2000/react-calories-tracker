@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import EatFooodItemCard from "./EatFoodItemCard";
 import { daysActions } from "../store/days-slice";
-
+import classes from './MealChoicesToEat.module.css';
 
 const MealChoicesToEat = (props) => {
 
@@ -16,7 +16,7 @@ const MealChoicesToEat = (props) => {
     }
 
     return <div>
-        <ul>
+        <ul className={classes.foodsToEatList}>
             {Object.entries(props.currentUserFoods).map(([key, value]) => <EatFooodItemCard item={value} key={key} onFoodAdd={addFoodEatenHandler.bind(null, key)}>
 
             </EatFooodItemCard>)}
