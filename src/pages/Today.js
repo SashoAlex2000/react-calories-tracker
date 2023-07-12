@@ -4,11 +4,15 @@ import EatFooodItemCard from "../components/EatFoodItemCard";
 import { useEffect } from "react";
 import { getTodaysFoods } from "../store/days-actions";
 import { transformDate } from "../utils/constants";
+import MealsEatenToday from "../components/MealsEatenToday";
+import MealChoicesToEat from "../components/MealChoicesToEat";
 
 // 20230710 -> So far it works with local Redux state, no comm with DB;
 // it doesn't work if the 'Foods' page isn't visited previously, since foodItems are not loded
+// 20230712 -> Fetches Items from Firebase, rework into components for styling purposes
 function TodayPage() {
 
+    // most of the logic stays here, since it is shared and intertwined between the two parts
     const currentDate = useSelector(state => state.days.currentDate);
     const foodsEaten = useSelector(state => state.days.foodsAteToday);
     const currentUserFoods = useSelector(state => state.foods.foodItems);
@@ -27,6 +31,8 @@ function TodayPage() {
         }
     }, [
         currentUserId,
+        dispatch, // dateTransformed & dispatch should also be listed as dependencies
+        dateTransformed,
     ]);
 
     for (let [key, value] of Object.entries(currentUserFoods)) {
@@ -38,29 +44,11 @@ function TodayPage() {
         };
     };
 
-    const addFoodEatenHandler = (foodItemId, quantity) => {
-        console.log('we really in addFoodEatenHandler though')
-        dispatch(daysActions.addNewFood({
-            foodId: foodItemId,
-            amount: quantity,
-        }));
-    }
+    return <>
 
-    return <><h1>
-        This is the page of meals consumed today - {currentDate};
-    </h1>
-        <div>
-            <ul>
-                {Object.entries(currentUserFoods).map(([key, value]) => <EatFooodItemCard item={value} key={key} onFoodAdd={addFoodEatenHandler.bind(null, key)}>
+        <MealsEatenToday currentDate={currentDate} foodsEatenDetails={foodsEatenDetails}/>
+        <MealChoicesToEat currentUserFoods={currentUserFoods}/>
 
-                </EatFooodItemCard>)}
-            </ul>
-        </div>
-        <ul>
-            {Object.entries(foodsEatenDetails).map(([key, value]) => <li key={key}>{key} - {value}</li>)}
-        </ul>
-        {/* display appropriate message for lack of foods eaten for current day */}
-        {Object.entries(foodsEatenDetails).length==0 && <h1>You haven't eaten anything today!</h1>}
     </>
 
 };
