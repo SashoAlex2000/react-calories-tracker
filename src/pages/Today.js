@@ -6,17 +6,26 @@ import { getTodaysFoods } from "../store/days-actions";
 import { transformDate } from "../utils/constants";
 import MealsEatenToday from "../components/MealsEatenToday";
 import MealChoicesToEat from "../components/MealChoicesToEat";
+import { fetchFoodData } from "../store/food-actions";
 
 // 20230710 -> So far it works with local Redux state, no comm with DB;
 // it doesn't work if the 'Foods' page isn't visited previously, since foodItems are not loded
 // 20230712 -> Fetches Items from Firebase, rework into components for styling purposes
 function TodayPage() {
 
+    const currentUserId = useSelector(state => state.auth.user?.uid);
+
+    useEffect(() => {
+        dispatch(fetchFoodData(currentUserId));
+    }, [
+        currentUserId,
+    ]);
+
+
     // most of the logic stays here, since it is shared and intertwined between the two parts
     const currentDate = useSelector(state => state.days.currentDate);
     const foodsEaten = useSelector(state => state.days.foodsAteToday);
     const currentUserFoods = useSelector(state => state.foods.foodItems);
-    const currentUserId = useSelector(state => state.auth.user?.uid);
 
     const dateTransformed = transformDate(currentDate);
 
