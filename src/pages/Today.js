@@ -9,7 +9,7 @@ import MealChoicesToEat from "../components/MealChoicesToEat";
 import { fetchFoodData } from "../store/food-actions";
 
 // 20230710 -> So far it works with local Redux state, no comm with DB;
-// it doesn't work if the 'Foods' page isn't visited previously, since foodItems are not loded
+// it doesn't work if the 'Foods' page isn't visited previously, since foodItems are not loded <- 20230717 - Fixed
 // 20230712 -> Fetches Items from Firebase, rework into components for styling purposes
 function TodayPage() {
 
