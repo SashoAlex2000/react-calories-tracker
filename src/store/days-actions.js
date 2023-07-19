@@ -29,3 +29,25 @@ export const getTodaysFoods = (currentUserId, currentDate) => {
 
 };
 
+// 20230719 -> PUT the updated list of foods eaten in Firebase, w/ appropriate UID and date
+export const eatFood = (userId, date, foodsEaten) => {
+
+    return async (dispatch) => {
+
+        const sendData = async () => {
+            await fetch (`${FIREBASE_URL}days/${userId}/${date}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(foodsEaten),
+            });
+        };
+
+        try {
+            await sendData();
+            dispatch(daysActions.replaceFoodsEaten(foodsEaten));
+        } catch (error) {
+            console.log(error);
+        }
+        
+    };
+
+};

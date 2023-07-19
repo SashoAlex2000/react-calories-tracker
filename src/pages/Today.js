@@ -56,7 +56,8 @@ function TodayPage() {
     return <>
 
         <MealsEatenToday currentDate={currentDate} foodsEatenDetails={foodsEatenDetails}/>
-        <MealChoicesToEat currentUserFoods={currentUserFoods}/>
+        {/* Also send the already eaten foods and the UID, to enable action dispatch (eatFood) */}
+        <MealChoicesToEat currentUserFoods={currentUserFoods} foodsEaten={foodsEaten} userId={currentUserId}/>
 
     </>
 
