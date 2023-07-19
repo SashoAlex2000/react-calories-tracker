@@ -11,7 +11,12 @@ const MealChoicesToEat = (props) => {
     
     // 20230719 -> no longer use addNewFood, dispatch an 'eatFood' action to send the data to Firebase
     const addFoodEatenHandler = (foodItemId, quantity) => {
-        console.log('we really in separate component though')
+        console.log('we really in separate component though');
+        
+        // prevent empty submission
+        if (quantity <= 0) {
+            return;
+        };
 
         let date = new Date().toLocaleDateString();
         date = transformDate(date);
