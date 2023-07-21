@@ -51,7 +51,7 @@ export const fetchFoodData = (currentUserId) => {
 
 // 20230607 -> send ('PUT') request to change the food items to the updated foodItems,
 // and update the new local food counter; then add the new food item to local redux state
-export const postFoodItem = (foodItems, userId, newestItemId) => {
+export const postFoodItem = (foodItems, userId, newestItemId, newFoodCounter) => {
 
     return async (dispatch) => {
 
@@ -72,7 +72,8 @@ export const postFoodItem = (foodItems, userId, newestItemId) => {
 
             const response = await fetch (`${FIREBASE_URL}users/${userId}/currentFCounter.json`, {
                 method: 'PUT',
-                body: JSON.stringify(Object.keys(foodItems).length),
+                // body: JSON.stringify(Object.keys(foodItems).length), // using length will create bugs if items are deleted,
+                body: JSON.stringify(newFoodCounter),  // receive explicitly the new foodCounter
             });
 
             if (!response.ok) {

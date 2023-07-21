@@ -74,7 +74,9 @@ const AddFoodForm = (props) => {
             ...newItem,
         };
 
-        dispatch(postFoodItem(newFoods, UID, currentItemId));
+        // the new foodCounter has to be passed to enable updating in Firebase
+        const newFoodCounter = currentFoodCounter + 1;
+        dispatch(postFoodItem(newFoods, UID, currentItemId, newFoodCounter));
 
         return redirect('/foods');
 
