@@ -4,7 +4,7 @@ import Card from "./UI/Card";
 
 const EatFooodItemCard = (props) => {
 
-    const [amountEaten, setAmountEaten] = useState(0);
+    const [amountEaten, setAmountEaten] = useState(props.item.commonDenomination);
 
     const addFoodHandler = () => {
         props.onFoodAdd(amountEaten);

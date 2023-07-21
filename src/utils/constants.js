@@ -143,3 +143,10 @@ export function transformDate (someDate) {
     };
 
 };
+
+export const foodFilterOptions = {
+    'date-asc': 'By date, ascending',
+    'date-desc': 'By date, descending',
+    'calories-desc': 'By Calories, descending',
+    'calories-asc': 'By Calories, ascending',
+};
