@@ -57,7 +57,7 @@ const AddFoodForm = (props) => {
         // and then update local redux state accordingly
         const newFoodObjectData = {
             name: foodName.current.value,
-            caloriesPerDenom: +denom.current.value,
+            caloriesPerDenom: +calories.current.value,
             unit: unitValue,
             commonDenomination: denom.current.value,
             macros: {
