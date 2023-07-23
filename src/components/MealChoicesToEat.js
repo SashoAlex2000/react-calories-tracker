@@ -47,7 +47,7 @@ const MealChoicesToEat = (props) => {
         if (selectedSortingParam === "date-asc") {
             setFoodChoices(props.currentUserFoods);
         } else if (selectedSortingParam === "date-desc") {
-            const reversedKeys = Object.keys(foodChoices).reverse();
+            const reversedKeys = Object.keys(props.currentUserFoods).reverse();
             const newObj = {};
             reversedKeys.forEach(key => {
                 newObj[key] = foodChoices[key];
