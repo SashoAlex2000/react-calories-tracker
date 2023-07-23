@@ -13,6 +13,7 @@ import { fetchFoodData } from "../store/food-actions";
 // 20230712 -> Fetches Items from Firebase, rework into components for styling purposes
 function TodayPage() {
 
+    const dispatch = useDispatch();
     const currentUserId = useSelector(state => state.auth.user?.uid);
 
     useEffect(() => {
@@ -30,8 +31,7 @@ function TodayPage() {
     const dateTransformed = transformDate(currentDate);
 
     console.log(foodsEaten);
-    const dispatch = useDispatch();
-
+    
     const foodsEatenDetails = {};
 
     useEffect(() => {

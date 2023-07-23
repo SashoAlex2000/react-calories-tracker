@@ -12,6 +12,7 @@ const MealChoicesToEat = (props) => {
 
     const [foodChoices, setFoodChoices] = useState(props.currentUserFoods);
     const [selectedSortingParam, setSelectedSortingParam] = useState(Object.entries(foodFilterOptions)[0][0]);
+    const [searchedFood, setSearchedFood] = useState('');
     
     // 20230719 -> no longer use addNewFood, dispatch an 'eatFood' action to send the data to Firebase
     const addFoodEatenHandler = (foodItemId, quantity) => {
@@ -44,26 +45,38 @@ const MealChoicesToEat = (props) => {
     };
 
     const sortButtonHandler = () => {
+
+        let finalFoodChoices;
+
+        // props.currentUserFoods has to be used, to avoid nulling the food choices with
+        // filtering by searched word
         if (selectedSortingParam === "date-asc") {
-            setFoodChoices(props.currentUserFoods);
+            finalFoodChoices = props.currentUserFoods;
         } else if (selectedSortingParam === "date-desc") {
             const reversedKeys = Object.keys(props.currentUserFoods).reverse();
             const newObj = {};
             reversedKeys.forEach(key => {
                 newObj[key] = foodChoices[key];
             });
-            setFoodChoices(newObj);
-              
+            // filter the choices to exclude undefined values
+            finalFoodChoices = Object.fromEntries(Object.entries(newObj).filter(([key, value]) => value !== undefined));
         } else if (selectedSortingParam === "calories-desc") {
             console.log("baznin ga");
-            let foodEntries = Object.entries(foodChoices);
+            let foodEntries = Object.entries(props.currentUserFoods);
             foodEntries.sort((a, b) => b[1].caloriesPerDenom - a[1].caloriesPerDenom);
-            setFoodChoices(Object.fromEntries(foodEntries));
+            finalFoodChoices = Object.fromEntries(foodEntries);
         } else if (selectedSortingParam === "calories-asc") {
-            let foodEntries = Object.entries(foodChoices);
+            let foodEntries = Object.entries(props.currentUserFoods);
             foodEntries.sort((a, b) => a[1].caloriesPerDenom - b[1].caloriesPerDenom);
-            setFoodChoices(Object.fromEntries(foodEntries));
+            finalFoodChoices = Object.fromEntries(foodEntries);
         };
+
+        if (searchedFood.trim() !== '') {
+            finalFoodChoices = Object.fromEntries(Object.entries(finalFoodChoices).filter(([key, value]) => value.name.includes(searchedFood)));
+        };
+
+        setFoodChoices(finalFoodChoices);
+
     };
 
     return <div>
@@ -73,6 +86,7 @@ const MealChoicesToEat = (props) => {
                     {value}
                 </option>)}
             </select>
+        <input placeholder="Search By Name" value={searchedFood} onChange={(e) => setSearchedFood(e.target.value)}></input>
         <button onClick={sortButtonHandler}>GO!</button>
         <ul className={classes.foodsToEatList}>
             {Object.entries(foodChoices).map(([key, value]) => <EatFooodItemCard item={value} key={key} onFoodAdd={addFoodEatenHandler.bind(null, key)}>
