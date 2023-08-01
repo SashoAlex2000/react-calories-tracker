@@ -39,7 +39,8 @@ const MealChoicesToEatTEST = (props) => {
     // useMemo to memoize the results and re-render only when necessary 
     const filteredItems = useMemo(() => {
         if (!searchedFood.trim()) return props.currentUserFoods;
-        return Object.fromEntries(Object.entries(props.currentUserFoods).filter(([key, value]) => value.name.includes(searchedFood)));;
+        // 20230801 -> fix: filtering works irrespective of letter case
+        return Object.fromEntries(Object.entries(props.currentUserFoods).filter(([key, value]) => value.name.toLowerCase().includes(searchedFood.toLocaleLowerCase())));;
     }, [
         props.currentUserFoods, // use props.currentUserFoods to re-render correctly on DB fetch
         searchedFood
