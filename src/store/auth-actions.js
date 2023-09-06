@@ -15,6 +15,7 @@ export const signUpUser = (email, password, username) => {
             const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
             console.log(userCredentials);
+            // maybe set the local state after the other requests
             dispatch(authActions.setUser({
                 uid: userCredentials.user.uid,
                 email: email,
@@ -22,7 +23,7 @@ export const signUpUser = (email, password, username) => {
             }));
 
             let userMetaCounterRequest = await fetch (`${FIREBASE_URL}users/metaCounter.json`);
-            const MetaCounterData = await userMetaCounterRequest.json(userMetaCounterRequest);
+            const MetaCounterData = await userMetaCounterRequest.json(userMetaCounterRequest);  // ???
             console.log(MetaCounterData);
             // userMetaCounter = Number(MetaCounterData);
 

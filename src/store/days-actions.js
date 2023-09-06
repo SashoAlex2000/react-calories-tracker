@@ -43,6 +43,7 @@ export const eatFood = (userId, date, foodsEaten) => {
 
         try {
             await sendData();
+            // could try adding one food only to avoid changing whole state
             dispatch(daysActions.replaceFoodsEaten(foodsEaten));
         } catch (error) {
             console.log(error);

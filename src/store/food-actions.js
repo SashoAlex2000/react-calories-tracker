@@ -9,6 +9,9 @@ export const fetchFoodData = (currentUserId) => {
 
     return async (dispatch) => {
 
+        // TODO change request to get only the foods of the current user
+        // not that of all users, only to filter for current user -> bloat as the userbase grows
+        // since currentMCounter is needed, find a way to fetch it explicitly 
         const fetchData = async () => {
             const response = await fetch(FIREBASE_URL + 'users.json');
 
@@ -52,6 +55,27 @@ export const fetchFoodData = (currentUserId) => {
 // 20230607 -> send ('PUT') request to change the food items to the updated foodItems,
 // and update the new local food counter; then add the new food item to local redux state
 export const postFoodItem = (foodItems, userId, newestItemId, newFoodCounter) => {
+
+    /*
+    
+    Called when new food item is created, to update ALL the foods of the current user; later
+    to be extended / updated with a post request directly to the appropriate ID
+
+    Input params:
+    - foodItems -> called in AddFoodForm, where the new item is extracted from the form, and an object
+    with all food items is created; the finished form is passed in this func for a direct 'PUT' request
+    - userId -> current user firebase UID, needed for proper URL request construction
+    - newestItemId -> when the item is posted in Firebase, the full list of items won't be fetched and updated
+    in the local state until the page is renavigated to / refreshed, so that the local state could be updated with 
+    'replaceFoodItems'. 
+    To address this discrepancy, the 'addNewFood' action is utilized, for immediate addition of the new item, to insure
+    sync with the items in the DB.
+    - newFoodCounter -> explicitly received, to be updated in Firebase. Length of objects should NOT be checked to avoid 
+    violation of unique ID constraint
+    
+    Since all foods are received, they could be replaced like in the days action? TODO investigate 
+
+    */
 
     return async (dispatch) => {
 

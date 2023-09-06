@@ -41,7 +41,7 @@ function TodayPage() {
     }, [
         currentUserId,
         dispatch, // dateTransformed & dispatch should also be listed as dependencies
-        dateTransformed,
+        dateTransformed, // theoretically, this should re-run the effect if 'currentDate' changes
     ]);
 
     for (let [key, value] of Object.entries(currentUserFoods)) {
