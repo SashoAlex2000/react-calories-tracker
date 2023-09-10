@@ -52,3 +52,33 @@ export const eatFood = (userId, date, foodsEaten) => {
     };
 
 };
+
+
+export const lowerFoodEatenAmoount = (userId, date, foodId, newAmount) => {
+
+    return async (dispatch) => {
+
+        const sendReductionRequest = async () => {
+
+            await fetch(`${FIREBASE_URL}days/${userId}/${date}/${foodId}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(newAmount),
+            });
+
+        };
+
+        try {
+            
+            await sendReductionRequest();
+            dispatch(daysActions.lowerFoodEaten({
+                uid: foodId,
+                newAmount: newAmount,
+            }));
+
+        } catch (error) {
+            console.log(`Error reducing the food amount: ${error}`);
+        }
+
+    }
+
+}

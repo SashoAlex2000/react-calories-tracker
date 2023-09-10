@@ -47,9 +47,11 @@ function TodayPage() {
     for (let [key, value] of Object.entries(currentUserFoods)) {
         if (foodsEaten.hasOwnProperty(key)) {
             console.log(`${key} - ${value}`);
-            foodsEatenDetails[key] = `Today, you've eaten ${foodsEaten[key]} grams of
+            // foodsEatenDetails[key] = {};
+            foodsEatenDetails[key]= {'repr_string': `Today, you've eaten ${foodsEaten[key]} grams of
             ${currentUserFoods[key].name} for a total of ${(foodsEaten[key] / currentUserFoods[key].commonDenomination) * currentUserFoods[key].caloriesPerDenom} calories
-            `;
+            `};
+            foodsEatenDetails[key]['amountEaten'] = [foodsEaten[key]]
         };
     };
 

@@ -26,7 +26,17 @@ const daysSlice = createSlice({
                 };
             };
             state.foodsAteToday = action.payload;
-        }
+        },
+        lowerFoodEaten (state, action) {
+
+            state.foodsAteToday[action.payload.uid] = action.payload.newAmount;
+
+        },
+        deleteFoodEaten (state, action) {
+
+            delete state.foodsAteToday[action.payload];
+
+        },
     }
 });
 
