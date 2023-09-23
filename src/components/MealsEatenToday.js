@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { transformDate } from "../utils/constants";
-import { lowerFoodEatenAmoount } from "../store/days-actions";
+import { lowerFoodEatenAmoount, removeFoodEaten } from "../store/days-actions";
 
 
 const MealsEatenToday = (props) => {
@@ -18,15 +18,22 @@ const MealsEatenToday = (props) => {
             quantity = 100; // change default to food commonDenomination, connect to value displayed
         };
 
-        // Doesn't work this way, accessing the values has to be through square brackets e.g. [`${key}`] 
-        // const newFoodAmount = Number(props.foodsEatenDetails.foodId.amountEaten) - quantity;
+        // props.foodsEatenDetails.foodId.amountEaten -->> Doesn't work, 
+        // accessing the values has to be through square brackets e.g. [`${key}`] 
         const newFoodAmount = Number(props.foodsEatenDetails[`${foodId}`].amountEaten) - quantity;
 
-        // TODO add checks and dispatch different actions depending on whether the whole amount is removed
+        // TODO 
+        //  ✓ add checks and dispatch different actions depending on whether the whole amount is removed
         // add option to choose reduction amount and connect it to values/refs;
-        // Catch cases where the amount would reach below 0 
+        // ✓ Catch cases where the amount would reach below 0 
 
-        dispatch(lowerFoodEatenAmoount(currentUserId, dateTransformed, foodId, newFoodAmount));
+        // Check the new food amount locally, and then call the appropriate fucntion:
+        // lower the amount if the new amount > 0, else remove it -> circumvent negative values
+        if (newFoodAmount > 0) {
+            dispatch(lowerFoodEatenAmoount(currentUserId, dateTransformed, foodId, newFoodAmount));
+        } else if (newFoodAmount <= 0) {
+            dispatch(removeFoodEaten(currentUserId, dateTransformed, foodId));
+        };
 
     };
 

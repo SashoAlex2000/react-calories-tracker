@@ -82,3 +82,30 @@ export const lowerFoodEatenAmoount = (userId, date, foodId, newAmount) => {
     }
 
 }
+
+
+
+export const removeFoodEaten = (userId, date, foodId) => {
+
+    return async (dispatch) => {
+
+        const sendRemovalRequest = async () => {
+            // https://stackoverflow.com/questions/68333644/how-can-i-delete-some-data-from-firebase-realtime-database
+            await fetch(`${FIREBASE_URL}days/${userId}/${date}/${foodId}.json`, {
+                method: 'DELETE',
+            })
+        };
+
+        try {
+
+            await sendRemovalRequest();
+            
+            dispatch(daysActions.deleteFoodEaten(foodId));
+
+        } catch (error) {
+            console.log(`ERROR: ${error}`)
+        }
+
+    };
+
+};

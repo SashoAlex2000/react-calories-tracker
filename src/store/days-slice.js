@@ -33,7 +33,9 @@ const daysSlice = createSlice({
 
         },
         deleteFoodEaten (state, action) {
-
+            
+            // specifying ID should be fine with []
+            // [`${id}`] shouldn't be necessary
             delete state.foodsAteToday[action.payload];
 
         },
