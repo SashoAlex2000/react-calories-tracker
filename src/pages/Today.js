@@ -33,6 +33,7 @@ function TodayPage() {
     console.log(foodsEaten);
     
     const foodsEatenDetails = {};
+    const newData = {};
 
     useEffect(() => {
         if (currentUserId) {
@@ -44,20 +45,25 @@ function TodayPage() {
         dateTransformed, // theoretically, this should re-run the effect if 'currentDate' changes
     ]);
 
-    for (let [key, value] of Object.entries(currentUserFoods)) {
+    for (let [key, value] of Object.entries(currentUserFoods)) { // TODO reverse
         if (foodsEaten.hasOwnProperty(key)) {
             console.log(`${key} - ${value}`);
             // foodsEatenDetails[key] = {};
             foodsEatenDetails[key]= {'repr_string': `Today, you've eaten ${foodsEaten[key]} grams of
             ${currentUserFoods[key].name} for a total of ${(foodsEaten[key] / currentUserFoods[key].commonDenomination) * currentUserFoods[key].caloriesPerDenom} calories
             `};
-            foodsEatenDetails[key]['amountEaten'] = [foodsEaten[key]]
+            foodsEatenDetails[key]['amountEaten'] = [foodsEaten[key]];
+            newData[key] = {};
+            newData[key]["name"] = currentUserFoods[key]["name"];
+            newData[key]["amountConsumed"] = foodsEaten[key];
+            newData[key]["caloriesConsumed"] = (foodsEaten[key] / currentUserFoods[key].commonDenomination) * currentUserFoods[key].caloriesPerDenom;
+            newData[key]["commonDenomination"] = currentUserFoods[key].commonDenomination;
         };
     };
 
     return <>
 
-        <MealsEatenToday currentDate={currentDate} foodsEatenDetails={foodsEatenDetails}/>
+        <MealsEatenToday currentDate={currentDate} foodsEatenDetails={foodsEatenDetails} newData={newData}/>
         {/* Also send the already eaten foods and the UID, to enable action dispatch (eatFood) */}
         <MealChoicesToEat currentUserFoods={currentUserFoods} foodsEaten={foodsEaten} userId={currentUserId}/>
 
