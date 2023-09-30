@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { transformDate } from "../utils/constants";
 import { lowerFoodEatenAmoount, removeFoodEaten } from "../store/days-actions";
 import FoodEatenItem from "./FoodEatenItemCard";
+import classes from './MealsEatenToday.module.css'
+
 
 
 const MealsEatenToday = (props) => {
@@ -48,7 +50,7 @@ const MealsEatenToday = (props) => {
                 <button onClick={reduceFoodEatenAmount.bind(null, key, 100)}>Reduce by 100</button>
                 </li>)}
         </ul> */}
-        <ul>
+        <ul className={classes.foodsEatenList}>
             {Object.entries(props.newData).map(([key, value]) => <FoodEatenItem key={key} 
             data={value}
             reduceFoodAmount={reduceFoodEatenAmount.bind(null, key)}
