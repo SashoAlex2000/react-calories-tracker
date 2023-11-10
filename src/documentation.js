@@ -92,7 +92,7 @@ Then wrappes it in a try-catch block to extract the data and searches for the cu
 the current user, two of the reducers are used -> 'replaceFoodItems' to replace the local state foods with the ones fetched
 from the DB and 'updateFoodCounter' to update the state's foodCounter to match the one from the DB
 
-The current inefficiency is that it fetches all the users at once; future scalability concern as the userbase grows ->
+(TODO) The current inefficiency is that it fetches all the users at once; future scalability concern as the userbase grows ->
 a direct fetch via UID should be examined (UID is present in the userState)
 
 addCurrentMetaCounter is used to place the info received and to place the currentUser's metaCounter into the state
@@ -120,7 +120,62 @@ In case there is no such record, Firebase responds with null, giving an empty ob
 state
 
 -> eatFood: sends a 'PUT' request to Firebase and updates the local state if it is successful -> changes all the items,
-should try with just adding one 
+should try with just adding one; doesn't work for now with a 'POST' request, since I cannot figure out how to do it
+TODO -> Investigate how to do it with just a 'POST' request
+
+lowerFoodEatenAmoount and removeFoodEaten are both utilized when the user decides to lower the amount eaten of one of the 
+foods for the day. The amount is calculated as the amount in props minus the entered amount by the user(passed back from
+a bound function for each FoodEatenItem), thus deriving the new amount
+-> lowerFoodEatenAmoount is used when the new value is > 0, sending a 'PUT' request to update the information in the DB;
+-> removeFoodEaten is ised when the new value is <= 0, sending a 'DELETE' request to the backend 
+
+-- DATA FLOW:
+[...]
+
+-- DB SCHEMA
+
+The DB is in a Firebase realtime database - it is NoSQL database; has the following structure:
+
+Two main 'clusters' of data:
+
+----- days
+[...]
+
+---- users -> preserves the needed data for the userbase.
+users: {
+
+    metaCounter: (int, the number of users added HISTORICALLY!)
+    # user UID
+    2F76Wr123sdaasodkj9812u: {
+        currentFcounter: (int, number of foods the user has added HISTORICALLY),
+        currentMCounter: (int, the historical sequence number),
+        data: {
+            // personal info for the user, such as username, email, first and last name and password (JK :D)
+        },
+        # an object with all the foods for the current user
+        foods:{
+            uXf1: {
+                caloriesPerDenom: X,
+                commonDenomination: "100",
+                macros: {
+                    carbohdrate: X,
+                    fat: X,
+                    protein: X,
+                },
+                name: "The name of the food",
+                unit: gram, kiligram, milliliter, liter, etc.
+            },
+            # Notice the 3 in the food UID, that 2 is skipped (meaning that the user has deleted the second food they've ever added);
+            # this is why the Fcounter is used, to avoid duplication of IDs, which are in the format uXfY, where Y can take
+            # the same value if a food is deleted
+            uXf3: {
+                ...
+            }
+        }
+    }
+
+}
+
 
 [... to be continued]
 
