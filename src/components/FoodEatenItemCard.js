@@ -36,7 +36,7 @@ const FoodEatenItem = (props) => {
     return <li className={classes.foodItemToEat}>
         <Card>
             <h1>{foodData.name}</h1>
-            <p>{foodData.amountConsumed} for a total of  {foodData.caloriesConsumed}</p>
+            <p>{foodData.amountConsumed} {foodData.unit} for a total of  {Number(foodData.caloriesConsumed).toFixed(2)}</p>
 
             <input ref={reductionAmount} value={defaultValueToDisplay} onChange={(e) => setDefaultValueToDisplay(e.target.value)} ></input>
 

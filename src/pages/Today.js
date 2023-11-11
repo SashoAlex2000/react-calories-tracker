@@ -55,6 +55,7 @@ function TodayPage() {
             foodsEatenDetails[key]['amountEaten'] = [foodsEaten[key]];
             newData[key] = {};
             newData[key]["name"] = currentUserFoods[key]["name"];
+            newData[key]["unit"] = currentUserFoods[key]["unit"];
             newData[key]["amountConsumed"] = foodsEaten[key];
             newData[key]["caloriesConsumed"] = (foodsEaten[key] / currentUserFoods[key].commonDenomination) * currentUserFoods[key].caloriesPerDenom;
             newData[key]["commonDenomination"] = currentUserFoods[key].commonDenomination;
