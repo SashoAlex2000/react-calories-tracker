@@ -138,14 +138,40 @@ The DB is in a Firebase realtime database - it is NoSQL database; has the follow
 
 Two main 'clusters' of data:
 
------ days
-[...]
+----- days -> has a key for each user and a matching object as a value; 
+This object has a key for each day in the format yyyymmdd (e.g. 20230901) is 1st of september, 2023
+In this way the days are unqie AND ordered correctly because of the trailing zeros (if 1st was written as 1, there
+would be inconsistencies -> 20230115 is before 20230201, but 202321 is before 2023115) 
+
+The values of the days in the format:
+key: the UID of the food (in the format uXfY)
+value: the amount eaten for each food, a simple number. The React app takes care of calculating the calories, based on the 
+division of (amount eaten/commonDenomination) * caloriesPerDenom; The additional information is stored in the 'users' DS
+
+days: {
+
+    # user UID (not real)
+    2F76Wr123sdaasodkj9812u: {
+        20230603: {
+            uXf1: 150,
+        },
+        20230713: {
+            uXf3: 240,
+            uXF6: 133, 
+        }
+        [...]
+    }, 
+    1sdsa6Wru8ausd98y79123y: {
+        [...]
+    }
+
+}
 
 ---- users -> preserves the needed data for the userbase.
 users: {
 
     metaCounter: (int, the number of users added HISTORICALLY!)
-    # user UID
+    # user UID (not real)
     2F76Wr123sdaasodkj9812u: {
         currentFcounter: (int, number of foods the user has added HISTORICALLY),
         currentMCounter: (int, the historical sequence number),
