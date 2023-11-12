@@ -14,3 +14,11 @@
     margin: 1.25rem;
     width: 15rem;
 }
+
+.wrongInput {
+    outline-color: rgb(255, 40, 40);
+}
+
+.correctInput {
+    outline-color: black;
+}

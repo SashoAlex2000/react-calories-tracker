@@ -7,6 +7,7 @@ import { redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postFoodItem } from '../store/food-actions';
 import Modal from './UI/Modal';
+import { fivePercentBoundCalorieCheck } from '../utils/calorieVerifiers';
 
 const AddFoodForm = (props) => {
 
@@ -28,6 +29,8 @@ const AddFoodForm = (props) => {
     const UID = useSelector(state => state.auth.user?.uid);
 
     const foodAll = useSelector(state => state.foods.foodItems);
+
+    const [caloriesColorOuline, setCaloriesColorOutline] = useState(false);
 
     const addFoodSubmitHandler = (event) => {
 
@@ -52,6 +55,20 @@ const AddFoodForm = (props) => {
             return;
         }
 
+        let totalCaloriesAreCorrect = fivePercentBoundCalorieCheck(
+            calories.current.value,
+            carbs.current.value,
+            protein.current.value,
+            fat.current.value,
+        );
+
+        if (!totalCaloriesAreCorrect) {
+            console.log('CALORIES DO NOT MATCH')
+            setCaloriesColorOutline(true);
+            return;
+        };
+        
+
         // 20230628 -> remove props.onAddFood (addFoodHandler), add foods to redux with dispatch and actions
         // 20230706 -> no longer added directly in redux, use action to send data to Firebase, 
         // and then update local redux state accordingly
@@ -69,6 +86,7 @@ const AddFoodForm = (props) => {
 
         const newItem = {};
         newItem[currentItemId] = newFoodObjectData;
+        // TODO -> in this way all the foods are added each time and sent - fix with a POST request
         const newFoods = {
             ...foodAll,
             ...newItem,
@@ -86,11 +104,14 @@ const AddFoodForm = (props) => {
         setUnitValue(event.target.value);
     }
 
+    // The class is applied when there is a mistake, however it is red only when the input element is clicked
+    let calorieInputClass = caloriesColorOuline ? classes.wrongInput : classes.correctInput;
+
     return <Modal onClose={props.onCloseAddForm}>
         <form className={classes.foodForm} onSubmit={addFoodSubmitHandler}>
 
             <input placeholder="food name" id="food-name" ref={foodName}></input>
-            <input placeholder="calories" id="calories" ref={calories}></input>
+            <input placeholder="calories" id="calories" ref={calories} className={calorieInputClass}></input>
 
             <select value={unitValue} onChange={handleOptionChange}>
                 {Object.entries(unitChoices).map(([key, value]) => <option key={key} value={key}>

@@ -150,3 +150,9 @@ export const foodFilterOptions = {
     'calories-desc': 'By Calories, descending',
     'calories-asc': 'By Calories, ascending',
 };
+
+export const MacrosCaloriesPerGram = {
+    'protein': 4,
+    'carbohydrates': 4,
+    'fat': 9,
+}
