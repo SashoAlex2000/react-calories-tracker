@@ -104,14 +104,37 @@ const AddFoodForm = (props) => {
         setUnitValue(event.target.value);
     }
 
+    const onTotalCaloriesChange = (event) => {
+
+        // If the total calories do not match, and the user re-enters the total calories correctly, remove red outline
+        // TODO -> this should remove it when the macros are changed as well; if the total sum matches
+
+
+        let checkForTotalCals = fivePercentBoundCalorieCheck(
+            calories.current.value,
+            carbs.current.value,
+            protein.current.value,
+            fat.current.value,
+        );
+        
+        // No if-else statements; just set it to the reverse, this way the UI reflects correct-> incorrect calories change
+        setCaloriesColorOutline(!checkForTotalCals);
+
+    };
+
     // The class is applied when there is a mistake, however it is red only when the input element is clicked
+    // probably since it is not re-rendered - but it should be, since it uses caloriesColorOuline ?
+    // The problem was with the lack of outline-style: solid in the css ...
     let calorieInputClass = caloriesColorOuline ? classes.wrongInput : classes.correctInput;
+    console.log(`OUTLINE IS: ${calorieInputClass}`);
 
     return <Modal onClose={props.onCloseAddForm}>
         <form className={classes.foodForm} onSubmit={addFoodSubmitHandler}>
 
             <input placeholder="food name" id="food-name" ref={foodName}></input>
-            <input placeholder="calories" id="calories" ref={calories} className={calorieInputClass}></input>
+
+            {caloriesColorOuline && <p>Total calories do NOT match with the sum of macros</p>}
+            <input placeholder="calories" id="calories" ref={calories} className={calorieInputClass} onChange={onTotalCaloriesChange}></input>
 
             <select value={unitValue} onChange={handleOptionChange}>
                 {Object.entries(unitChoices).map(([key, value]) => <option key={key} value={key}>

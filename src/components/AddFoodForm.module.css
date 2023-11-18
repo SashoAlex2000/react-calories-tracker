@@ -16,9 +16,13 @@
 }
 
 .wrongInput {
+    outline-style: solid;
     outline-color: rgb(255, 40, 40);
+    outline-width: .16rem;
 }
 
 .correctInput {
+    outline-style: solid;
     outline-color: black;
+    outline-width: .16rem;
 }
