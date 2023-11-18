@@ -136,20 +136,20 @@ const AddFoodForm = (props) => {
             {caloriesColorOuline && <p>Total calories do NOT match with the sum of macros</p>}
             <input placeholder="calories" id="calories" ref={calories} className={calorieInputClass} onChange={onTotalCaloriesChange}></input>
 
+            <input placeholder="common denomination" id="denom" ref={denom}></input>
+
             <select value={unitValue} onChange={handleOptionChange}>
                 {Object.entries(unitChoices).map(([key, value]) => <option key={key} value={key}>
                     {value}
                 </option>)}
             </select>
 
-
-            <input placeholder="common denomination" id="denom" ref={denom}></input>
             <input placeholder="protein" id="protein" ref={protein}></input>
             <input placeholder="carbs" id="carbs" ref={carbs}></input>
             <input placeholder="fat" id="fat" ref={fat}></input>
 
-            <button type="submit">Add food</button>
-            <button type="button" onClick={props.onCloseAddForm}>Close</button>
+            <button type="submit" className={classes.addFoodButton}>Add food</button>
+            <button type="button" onClick={props.onCloseAddForm} className={`${classes.closeButton}`}>Close</button>
 
         </form>
     </Modal>
